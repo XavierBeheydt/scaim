@@ -15,7 +15,7 @@
 
 ![Démo scAIm](assets/demo.gif)
 
-**[▶ Voir la démo live](https://xavierbeheydt.github.io/scaim/)**
+**[▶ Voir la démo live](https://scaim.beheydt.dev/)**
 
 </div>
 
