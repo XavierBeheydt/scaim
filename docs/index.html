@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>scAIm™ — L'IA agentique qui orchestre l'orchestration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4efe6; --panel:#fbf8f2; --line:#e2d8c8; --txt:#2b2118; --muted:#7a6a58;
+    --a:#c96442; --b:#d97a4e; --c:#a8512f; --ok:#5f8a4e; --warn:#c98a2e;
+    --term:#2a211a; --termtxt:#e9dfd0; --termmuted:#8f7f6c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--txt);font-family:Inter,system-ui,sans-serif;line-height:1.55;overflow-x:hidden}
+  .glow{display:none}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0;border-bottom:1px solid var(--line)}
+  .logo{font-weight:900;font-size:22px;letter-spacing:-.5px}
+  .logo span{color:var(--a)}
+  .logo sup{font-size:11px;color:var(--muted)}
+  .links{display:flex;gap:26px;color:var(--muted);font-size:14px}
+  .links a{color:inherit;text-decoration:none}
+  .links a:hover{color:var(--a)}
+  .btn{display:inline-block;border:0;cursor:pointer;font:600 15px Inter,sans-serif;padding:12px 22px;border-radius:10px;color:#fff;background:var(--a);text-decoration:none;transition:background .15s,transform .15s}
+  .btn:hover{background:var(--c);transform:translateY(-1px)}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--txt)}
+  .btn.ghost:hover{border-color:var(--a);color:var(--a);background:transparent}
+  .hero{text-align:center;padding:70px 0 40px}
+  .badge{display:inline-block;font-size:13px;padding:6px 14px;border-radius:99px;border:1px solid var(--line);background:var(--panel);color:var(--muted);margin-bottom:26px}
+  h1{font-size:clamp(34px,6vw,62px);line-height:1.06;font-weight:900;letter-spacing:-2px;margin-bottom:22px}
+  h1 em,.sub em{font-style:normal;color:var(--a)}
+  .sub{max-width:720px;margin:0 auto 34px;color:var(--muted);font-size:18px}
+  .buzz{font-family:'JetBrains Mono',monospace;font-size:12px;color:#a8977f;margin-top:30px;letter-spacing:.5px}
+  section{padding:60px 0}
+  h2{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-1px;margin-bottom:10px}
+  .lead{color:var(--muted);margin-bottom:30px;max-width:700px}
+  .demo{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 12px 40px #6b4a2a14}
+  .demo-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:20px}
+  .dots i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;background:#d9cbb6}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .counter{font-size:44px;font-weight:800;color:var(--a)}
+  .counter small{font-size:16px;color:var(--muted);font-weight:400}
+  .bar{height:8px;border-radius:9px;background:#ebe2d4;overflow:hidden;margin-bottom:22px}
+  .bar div{height:100%;width:0;background:var(--a);transition:width .35s}
+  .grid{display:grid;grid-template-columns:1fr 1.2fr;gap:20px}
+  @media(max-width:780px){.grid{grid-template-columns:1fr}.links{display:none}}
+  .agents{display:grid;gap:10px}
+  .agent{display:flex;align-items:center;gap:12px;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:14px}
+  .pulse{width:10px;height:10px;border-radius:50%;background:var(--a);box-shadow:0 0 0 0 #c9644288;animation:p 1.4s infinite;flex:none}
+  .agent.idle .pulse{background:#d9cbb6;animation:none}
+  @keyframes p{70%{box-shadow:0 0 0 9px #c9644200}100%{box-shadow:0 0 0 0 #c9644200}}
+  .agent b{font-weight:600}
+  .agent .st{margin-left:auto;color:var(--muted);font-size:12px}
+  .tasks{height:372px;overflow:auto;border-radius:10px;padding:12px 14px;background:var(--term);color:var(--termtxt);font-size:13px}
+  .tasks > span{color:var(--termmuted)!important}
+  .task{display:flex;gap:10px;padding:5px 0;opacity:0;transform:translateY(6px);animation:in .3s forwards}
+  @keyframes in{to{opacity:1;transform:none}}
+  .task .ic{width:18px;flex:none;color:#e0a458}
+  .task.done .ic{color:#9cc48a}
+  .task.done .lbl{color:var(--termtxt)}
+  .center{text-align:center;margin-top:22px}
+  .result{display:none;margin-top:22px;border:1px solid #c5d6b9;background:#eef3e8;border-radius:12px;padding:20px}
+  .result.show{display:block;animation:in .4s forwards}
+  .result h3{color:var(--ok);margin-bottom:10px}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:14px 0}
+  .kpi{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}
+  .kpi span{display:block;color:var(--muted);font-size:12px}
+  .kpi strong{font-size:22px}
+  .reveal{display:none;margin-top:22px}
+  .reveal.show{display:block;animation:in .4s forwards}
+  .reveal strong[style]{color:var(--a)!important}
+  pre{background:var(--term);border-radius:10px;padding:18px;overflow:auto;font:13px/1.6 'JetBrains Mono',monospace;color:var(--termtxt)}
+  pre .k{color:#e08a5f} pre .s{color:#9cc48a} pre .c{color:var(--termmuted)}
+  .big{font-size:clamp(22px,3vw,30px);font-weight:800;margin:24px 0 8px}
+  .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+  .plan{border:1px solid var(--line);border-radius:16px;padding:26px;background:var(--panel)}
+  .plan.hot{border:2px solid var(--a)}
+  .plan h3{font-size:18px;margin-bottom:6px}
+  .price{font-size:34px;font-weight:900;margin:8px 0 14px}
+  .price small{font-size:14px;color:var(--muted);font-weight:400}
+  .plan ul{list-style:none;color:var(--muted);font-size:14px}
+  .plan li{padding:5px 0}
+  .plan li:before{content:"✦ ";color:var(--a)}
+  .trust{border:1px dashed #cbbca5;border-radius:16px;padding:36px;text-align:center;color:var(--muted)}
+  .trust .logos{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-top:18px}
+  .trust .logos div{width:120px;height:44px;border-radius:10px;border:1px dashed #cbbca5}
+  .serious{background:#fff;color:var(--txt);border:1px solid var(--line);border-left:5px solid var(--a);border-radius:16px;padding:48px clamp(22px,5vw,60px);font-size:17px}
+  .serious h2{color:var(--txt)}
+  .serious p{margin:14px 0;max-width:760px}
+  .serious ul{margin:14px 0 14px 20px;max-width:760px}
+  .serious li{margin:6px 0}
+  .serious a{color:var(--a);font-weight:600}
+  .serious .sig{margin-top:26px;font-weight:700}
+  footer{padding:40px 0 60px;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+  .graphwrap{border:1px solid var(--line);border-radius:14px;background:#f7f2ea;margin-bottom:14px}
+  .graphwrap svg{display:block;width:100%;height:auto}
+  .tasks.log{height:auto;min-height:150px;font-size:14px;padding:14px 18px}
+  .log .row{display:flex;gap:12px;height:26px;align-items:center;white-space:nowrap;overflow:hidden}
+  .log .ic{width:16px;color:#e0a458;flex:none}.log .done .ic{color:#9cc48a}
+  .log .ag{color:var(--termmuted);width:200px;flex:none}
+  @media(max-width:700px){.log .ag{display:none}.tasks.log{font-size:12px}}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="wrap">
+  <nav>
+    <div class="logo">sc<span>AI</span>m<sup>™</sup></div>
+    <div class="links"><a href="#demo">Agents</a><a href="#pricing">Pricing</a><a href="#trust">Synergies</a><a href="#vrai">Manifesto</a></div>
+    <a class="btn" href="#demo">Book a Demo ✨</a>
+  </nav>
+
+  <header class="hero">
+    <div class="badge">🚀 Seed round : 0 € levés · 100 % de hype · Série A en cours de prompt</div>
+    <h1>L'IA <em>agentique</em> qui orchestre l'orchestration de vos agents.</h1>
+    <p class="sub">scAIm™ déploie un essaim de 7 agents autonomes, multimodaux et post-quantiques qui alignent vos paradigmes, tokenisent votre ROI et transforment vos process en <em>expériences cognitives scalables</em>. Sans code. Sans humain. Sans résultat.</p>
+    <a class="btn" href="#demo" onclick="startDemo()">▶ Lancer la démo live</a>
+    <a class="btn ghost" href="#vrai">Lire le whitepaper</a>
+    <p class="buzz">AGENTIC · RAG-NATIVE · ZERO-SHOT · HOLISTIC · LLM-FIRST · WEB4 · DISRUPTIVE · SYNERGY-AS-A-SERVICE</p>
+  </header>
+
+  <section id="demo">
+    <h2>Regardez nos agents travailler.</h2>
+    <p class="lead">Démo en temps réel* de scAIm™ Enterprise Swarm sur un cas client réel**. <span class="mono" style="font-size:12px">*setTimeout · **imaginaire</span></p>
+    <div class="demo">
+      <div class="demo-head">
+        <div class="dots"><i></i><i></i><i></i> <span class="mono" style="color:var(--muted);font-size:13px">scaim-swarm v4.2.0-hyperbeta</span></div>
+        <div class="counter mono"><span id="cnt">0</span><small> / 30 tâches orchestrées</small></div>
+      </div>
+      <div class="bar"><div id="bar"></div></div>
+      <div class="graphwrap"><svg id="g" viewBox="0 0 1080 640" preserveAspectRatio="xMidYMid meet"></svg></div>
+      <div class="tasks log mono" id="tasks"></div>
+      <div class="center"><button class="btn" id="go" onclick="startDemo()">▶ Lancer l'essaim</button></div>
+
+      <div class="result" id="result">
+        <h3>✅ Mission accomplie. 30/30 tâches complétées.</h3>
+        <div class="kpis">
+          <div class="kpi"><span>Tâches orchestrées</span><strong>30</strong></div>
+          <div class="kpi"><span>Livrables produits</span><strong>0</strong></div>
+          <div class="kpi"><span>Problèmes résolus</span><strong>0</strong></div>
+          <div class="kpi"><span>Valeur créée</span><strong>0,00 €</strong></div>
+          <div class="kpi"><span>Votre abonnement</span><strong>14 990 € HT/mois</strong></div>
+        </div>
+        <button class="btn ghost" onclick="reveal()">🔍 Voir ce qui s'est vraiment passé</button>
+      </div>
+
+      <div class="reveal" id="reveal">
+        <p class="big">Voici l'intégralité de notre IA :</p>
+<pre><span class="c">// scaim-core.js — propriété intellectuelle stratégique, ne pas leak</span>
+<span class="k">for</span> (<span class="k">let</span> i = 0; i &lt; 30; i++) {
+  setTimeout(() =&gt; {
+    tache[i].icone = <span class="s">"✅"</span>;      <span class="c">// IA générative</span>
+    compteur++;                  <span class="c">// IA agentique</span>
+    animerLesNoeuds();           <span class="c">// IA multimodale</span>
+  }, i * 400);
+}
+<span class="c">// TODO: faire un truc utile (sprint 47)</span></pre>
+        <p class="big">Vous venez de regarder des nœuds clignoter pendant 15 secondes.<br>Et vous avez ressenti de la productivité.</p>
+        <p style="color:var(--muted);max-width:760px">Félicitations : c'est exactement ce que je vends. scAIm™, c'est un <strong style="color:var(--txt)">scam</strong> avec de l'<strong style="color:var(--a)">AI</strong> dedans. « AI » pour « Arnaque Intelligente ». Ou « Argent Investi ». Le vôtre.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <h2>Un pricing aussi transparent que nos agents.</h2>
+    <p class="lead">Facturé annuellement, payable d'avance, non remboursable, non explicable.</p>
+    <div class="plans">
+      <div class="plan">
+        <h3>Starter Hype</h3>
+        <div class="price">4 990 €<small>/mois</small></div>
+        <ul><li>1 animation de spinner</li><li>Compteur jusqu'à 10</li><li>Le mot « agentique » ×5 dans votre rapport</li><li>Support par prière</li></ul>
+      </div>
+      <div class="plan hot">
+        <h3>Pro Disruption 🔥</h3>
+        <div class="price">14 990 €<small>/mois</small></div>
+        <ul><li>7 agents avec un prénom et une pastille qui clignote</li><li>Compteur jusqu'à 30 (avec dégradé)</li><li>Coches vertes illimitées</li><li>Post LinkedIn « Comment j'ai remplacé toute mon équipe par 7 agents »</li></ul>
+      </div>
+      <div class="plan">
+        <h3>Enterprise Paradigm</h3>
+        <div class="price">Sur devis<small> (beaucoup)</small></div>
+        <ul><li>Compteur jusqu'à 100 + confettis</li><li>Agent « Chief Synergy Officer »</li><li>Comité de pilotage hebdo pour expliquer le compteur</li><li>Migration vers la V5 (qui ne fera rien non plus, mais plus vite)</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="trust">
+    <div class="trust">
+      <h2 style="color:var(--txt)">Ils nous font confiance</h2>
+      <p>Personne. Mais avec énormément de conviction.</p>
+      <div class="logos"><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+  </section>
+
+  <section id="vrai">
+    <div class="serious">
+      <h2>Bon. Sérieusement.</h2>
+      <p>scAIm™ n'existe pas. Mais vous avez forcément croisé son cousin cette semaine dans votre fil LinkedIn ou X : un « architecte IA », un « sorcier des agents », une jolie animation, un compteur qui monte, zéro détail sur ce qui est réellement fait, comment, avec quelles données et ce qui se passe quand ça se trompe.</p>
+      <p>Je suis développeur. J'utilise l'IA tous les jours, et elle est réellement utile quand elle répond à un vrai problème, bien posé. C'est justement pour ça que je n'aime pas qu'on la vende comme un tour de magie.</p>
+      <p>Quand on me présente ce genre d'outil, je me pose toujours les mêmes questions. <strong>Où vont aller mes données</strong>, et qui pourra les lire ? Que se passe-t-il <strong>s'il se trompe en les traitant</strong> : un mail envoyé au mauvais client, un chiffre inversé dans un devis, un dossier oublié… et <strong>qui s'en rendra compte</strong> ? Est-ce que je l'ai vu tourner sur <strong>un vrai dossier</strong>, ou seulement sur la démo ? Quand personne n'arrive à me répondre <strong>simplement</strong>, j'en conclus qu'il n'y a pas grand-chose derrière.</p>
+      <p>En vrai, une bonne partie des « besoins IA » qu'on me décrit se règlent avec <strong>un petit script, un export bien fait ou un tableur propre</strong>. Ça fait moins rêver sur LinkedIn, mais ça tourne, ça coûte trois fois rien, et <strong>on sait ce qu'il y a dedans</strong>.</p>
+      <p>Un bon projet tech, IA ou pas, commence par une conversation : comprendre votre métier, vos contraintes, ce qui vous fait perdre du temps. Puis du code qui marche, qu'on peut lire, tester et maintenir. Et parfois, la bonne réponse c'est : « vous n'avez pas besoin d'IA pour ça ».</p>
+      <p>Pas de sorcellerie. De l'artisanat.</p>
+      <p class="sig">Xavier Beheydt — développeur, pas sorcier.<br><a href="https://github.com/XavierBeheydt">github.com/XavierBeheydt</a></p>
+    </div>
+  </section>
+
+  <footer>
+    scAIm™ est une parodie. Aucun agent n'a été maltraité pendant la réalisation de cette page.<br>
+    Le compteur, lui, est 100 % réel. C'est d'ailleurs la seule chose qui l'est.
+  </footer>
+</div>
+
+<script>
+
+const NS="http://www.w3.org/2000/svg";
+const svg=document.getElementById('g');
+const CX=540, CY=300;
+const clamp=x=>Math.max(0,Math.min(1,x));
+const easeIO=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+const easeBack=x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);(parent||svg).appendChild(e);return e}
+
+const AG=["Synergie","Disruption","Paradigme","Levier","Scalabilité","Holistique","ROI-Quantique"];
+const TOOLS=["ERP","Agenda","Tableur","Mails","Wiki","CRM","PDF","Cloud","Blockchain","Métavers"];
+const agents=AG.map((n,i)=>{const a=-Math.PI/2+i*2*Math.PI/7;return{n,x:CX+255*Math.cos(a),y:CY+185*Math.sin(a),a}});
+const tools=TOOLS.map((n,i)=>{const a=-Math.PI/2+Math.PI/10+i*2*Math.PI/10;return{n,x:CX+455*Math.cos(a),y:CY+268*Math.sin(a),a}});
+// connect each agent to its 2 nearest tools (by angle)
+const edges=[];
+agents.forEach((A,i)=>edges.push({from:{x:CX,y:CY},to:A,kind:'core',ai:i,delay:0.15+i*0.07}));
+agents.forEach((A,i)=>{
+  const d=tools.map((T,j)=>({j,d:Math.abs(Math.atan2(Math.sin(T.a-A.a),Math.cos(T.a-A.a)))})).sort((p,q)=>p.d-q.d).slice(0,2);
+  A.tools=d.map(o=>o.j);
+  d.forEach((o,k)=>edges.push({from:A,to:tools[o.j],kind:'tool',ai:i,tj:o.j,delay:0.65+i*0.06+k*0.05}));
+});
+const defs=el('defs',{});
+const gr=el('radialGradient',{id:'cg'},defs);el('stop',{offset:'0%','stop-color':'#d97a4e'},gr);el('stop',{offset:'100%','stop-color':'#b5532f'},gr);
+const fl=el('filter',{id:'sh',x:'-50%',y:'-50%',width:'200%',height:'200%'},defs);el('feDropShadow',{dx:0,dy:6,stdDeviation:8,'flood-color':'#4a3320','flood-opacity':.14},fl);
+const gl=el('filter',{id:'glow',x:'-100%',y:'-100%',width:'300%',height:'300%'},defs);el('feGaussianBlur',{stdDeviation:4},gl);
+
+const gEdges=el('g',{}), gRings=el('g',{}), gPk=el('g',{}), gNodes=el('g',{});
+edges.forEach(e=>{e.L=Math.hypot(e.to.x-e.from.x,e.to.y-e.from.y);
+  e.base=el('line',{x1:e.from.x,y1:e.from.y,x2:e.to.x,y2:e.to.y,stroke:'#d8cab5','stroke-width':2,'stroke-dasharray':e.L,'stroke-linecap':'round'},gEdges);
+  e.hot=el('line',{x1:e.from.x,y1:e.from.y,x2:e.to.x,y2:e.to.y,stroke:'#c96442','stroke-width':3,opacity:0,'stroke-linecap':'round'},gEdges);});
+// nodes
+const core={g:el('g',{},gNodes)};
+core.ring=el('circle',{cx:CX,cy:CY,r:62,fill:'none',stroke:'#c96442','stroke-width':2,opacity:0},gRings);
+core.ring2=el('circle',{cx:CX,cy:CY,r:62,fill:'none',stroke:'#c96442','stroke-width':2,opacity:0},gRings);
+el('circle',{cx:CX,cy:CY,r:62,fill:'url(#cg)',filter:'url(#sh)'},core.g);
+el('text',{x:CX,y:CY-4,'text-anchor':'middle','font-size':22,'font-weight':900,fill:'#fff','font-family':'Inter'},core.g).textContent='scAIm';
+el('text',{x:CX,y:CY+20,'text-anchor':'middle','font-size':13,'font-weight':600,fill:'#fbe6da','font-family':'Inter','letter-spacing':1.5},core.g).textContent='CORE';
+agents.forEach(A=>{A.g=el('g',{},gNodes);
+  A.c=el('circle',{cx:A.x,cy:A.y,r:30,fill:'#fff',stroke:'#c96442','stroke-width':2.5,filter:'url(#sh)'},A.g);
+  A.dot=el('circle',{cx:A.x,cy:A.y,r:9,fill:'#d9cbb6'},A.g);
+  const lab=el('text',{x:A.x,y:A.y+(A.y<CY-40?-44:52),'text-anchor':'middle','font-size':16,'font-weight':700,fill:'#2b2118','font-family':'Inter'},A.g);lab.textContent='Agent '+A.n;});
+tools.forEach(T=>{T.g=el('g',{},gNodes);
+  T.r=el('rect',{x:T.x-50,y:T.y-19,width:100,height:38,rx:19,fill:'#fbf8f2',stroke:'#d8cab5','stroke-width':1.5},T.g);
+  T.t=el('text',{x:T.x,y:T.y+5,'text-anchor':'middle','font-size':15,'font-weight':600,fill:'#7a6a58','font-family':'Inter'},T.g);T.t.textContent=T.n;});
+// packets pool
+const PK=[];for(let i=0;i<40;i++){const p={g:el('g',{opacity:0},gPk)};p.halo=el('circle',{r:11,fill:'#c96442',opacity:.35,filter:'url(#glow)'},p.g);p.tail=[0,1,2].map(k=>el('circle',{r:6-k*1.5,fill:'#c96442',opacity:.5-k*.15},p.g));p.c=el('circle',{r:7,fill:'#c96442'},p.g);PK.push(p)}
+
+const TASKS=["Initialisation de l'essaim cognitif","Handshake inter-agents","Ingestion holistique des process","Vectorisation des émotions du CODIR","Alignement des paradigmes stratégiques","Tokenisation du ROI","Embedding de l'organigramme","Fine-tuning de la culture d'entreprise","RAG sur 4 000 PDF (pas lus)","Orchestration de l'orchestrateur","Méta-orchestration","Prompt engineering du prompt","Calcul de la synergie latente","Priorisation de la roadmap au feeling","Hallucination contrôlée","Détection d'anomalies (aucune)","Génération d'insights","Actionnement des insights","Scalabilité du néant","Optimisation du ressenti","Lissage du dégradé","Validation croisée inter-agents","Synchronisation blockchain (pourquoi ?)","Réunion inter-agents","Conformité RGPD (cadenas ajouté)","Dashboard du dashboard","Clôture des tickets (sans les lire)","Création de valeur (en cours)","Rédaction du post LinkedIn","Envoi de la facture"];
+const START=1.6, STEP=0.4, D1=0.38, D2=0.3, HOLD=0.12, D3=0.38;
+const DONE_AT=i=>START+i*STEP+D1+D2+HOLD+D3;
+const END=DONE_AT(29);
+const lerp=(a,b,u)=>a+(b-a)*u;
+function job(i){const A=agents[i%7];const T=tools[A.tools[i%2]];return{A,T}}
+
+window.render=function(t){
+  // edges draw-in
+  edges.forEach(e=>{const u=easeIO(clamp((t-e.delay)/0.55));e.base.setAttribute('stroke-dashoffset',e.L*(1-u));e.hotV=0});
+  // nodes pop
+  const cu=clamp(t/0.4);core.g.setAttribute('transform',`translate(${CX} ${CY}) scale(${cu?easeBack(cu):0.001}) translate(${-CX} ${-CY})`);
+  agents.forEach((A,i)=>{const u=clamp((t-0.35-i*0.07)/0.4);A.g.setAttribute('transform',`translate(${A.x} ${A.y}) scale(${u?easeBack(u):0.001}) translate(${-A.x} ${-A.y})`);A.act=0});
+  tools.forEach((T,j)=>{const u=clamp((t-0.9-j*0.05)/0.4);T.g.setAttribute('transform',`translate(${T.x} ${T.y}) scale(${u?easeBack(u):0.001}) translate(${-T.x} ${-T.y})`);T.act=0});
+  // core pulse rings
+  [core.ring,core.ring2].forEach((r,k)=>{if(t<START||t>END+0.3){r.setAttribute('opacity',0);return}const ph=((t-START)/1.4+k*0.5)%1;r.setAttribute('r',62+ph*70);r.setAttribute('opacity',(1-ph)*0.45)});
+  // packets
+  let pk=0, c=0;
+  for(let i=0;i<30;i++){
+    const t0=START+i*STEP;const {A,T}=job(i);
+    const eA=edges.find(e=>e.kind==='core'&&e.ai===i%7), eT=edges.find(e=>e.kind==='tool'&&e.ai===i%7&&e.tj===A.tools[i%2]);
+    const s1=t0,s2=s1+D1,s3=s2+D2,s4=s3+HOLD,s5=s4+D3;
+    if(t>=s5)c++;
+    let pos=null,col='#c96442',back=false;
+    if(t>=s1&&t<s2){const u=easeIO((t-s1)/D1);pos=[lerp(CX,A.x,u),lerp(CY,A.y,u)];eA.hotV=Math.max(eA.hotV,1);A.act=1}
+    else if(t>=s2&&t<s3){const u=easeIO((t-s2)/D2);pos=[lerp(A.x,T.x,u),lerp(A.y,T.y,u)];eT.hotV=1;A.act=1}
+    else if(t>=s3&&t<s4){T.act=1;eT.hotV=Math.max(eT.hotV,.6)}
+    else if(t>=s4&&t<s5){const u=easeIO((t-s4)/D3);pos=[lerp(T.x,CX,u),lerp(T.y,CY,u)];col='#5f8a4e';back=true;T.act=Math.max(T.act,1-u*2);
+      // return via agent: two-segment path
+      const uu=easeIO((t-s4)/D3);if(uu<.5){const v=uu*2;pos=[lerp(T.x,A.x,v),lerp(T.y,A.y,v)];eT.hotV=Math.max(eT.hotV,.8)}else{const v=(uu-.5)*2;pos=[lerp(A.x,CX,v),lerp(A.y,CY,v)];eA.hotV=Math.max(eA.hotV,.8)}A.act=Math.max(A.act,.6)}
+    if(t>=s5&&t<s5+0.35)A.act=Math.max(A.act,(1-(t-s5)/0.35));
+    if(pos&&pk<PK.length){const p=PK[pk++];p.g.setAttribute('opacity',1);
+      p.c.setAttribute('cx',pos[0]);p.c.setAttribute('cy',pos[1]);p.c.setAttribute('fill',col);
+      p.halo.setAttribute('cx',pos[0]);p.halo.setAttribute('cy',pos[1]);p.halo.setAttribute('fill',col);
+      p.tail.forEach(x=>{x.setAttribute('opacity',0)});}
+  }
+  for(;pk<PK.length;pk++)PK[pk].g.setAttribute('opacity',0);
+  edges.forEach(e=>e.hot.setAttribute('opacity',e.hotV*0.85));
+  agents.forEach(A=>{A.dot.setAttribute('fill',A.act>0.05?'#c96442':(t>END?'#5f8a4e':'#d9cbb6'));A.dot.setAttribute('r',9+A.act*4)});
+  tools.forEach(T=>{const a=T.act>0.05;T.r.setAttribute('fill',a?'#c96442':'#fbf8f2');T.r.setAttribute('stroke',a?'#c96442':'#d8cab5');T.t.setAttribute('fill',a?'#fff':'#7a6a58')});
+  // counter + bar
+  document.getElementById('cnt').textContent=c;
+  document.getElementById('bar').style.width=(c/30*100)+'%';
+  // log: last 4 started tasks
+  let rows=[];for(let i=0;i<30;i++){if(t>=START+i*STEP)rows.push(i)}
+  rows=rows.slice(-5);
+  document.getElementById('tasks').innerHTML=rows.length?rows.map(i=>{const d=t>=DONE_AT(i);return `<div class="row${d?' done':''}"><span class="ic">${d?'✓':['◐','◓','◑','◒'][Math.floor(t*8)%4]}</span><span class="ag">[Agent ${AG[i%7]}]</span><span>${TASKS[i]}</span></div>`}).join(''):'<div class="row" style="color:#8f7f6c">$ scaim swarm --deploy --agents=7 --hype=max</div>';
+};
+
+const PRE=1.55;
+render(PRE);
+let running=false;
+function startDemo(){
+  if(running) return; running=true;
+  document.getElementById('demo').scrollIntoView({behavior:'smooth'});
+  document.getElementById('go').style.display='none';
+  document.getElementById('result').classList.remove('show');
+  document.getElementById('reveal').classList.remove('show');
+  const t0=performance.now();
+  (function loop(now){
+    const t=(now-t0)/1000;
+    render(Math.min(t,END+0.4));
+    if(t<END+0.6){requestAnimationFrame(loop)}
+    else{document.getElementById('result').classList.add('show');running=false;
+      const g=document.getElementById('go');g.textContent='↻ Relancer (refacturé)';g.style.display='inline-block';}
+  })(t0);
+}
+function reveal(){const r=document.getElementById('reveal');r.classList.add('show');r.scrollIntoView({behavior:'smooth',block:'start'})}
+</script>
+</body>
+</html>

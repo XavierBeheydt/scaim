@@ -1,0 +1,28 @@
+{
+  "name": "scaim",
+  "version": "4.2.0-hyperbeta",
+  "description": "L'IA agentique qui orchestre l'orchestration de vos agents. Sans code. Sans humain. Sans résultat.",
+  "main": "src/scaim-core.js",
+  "bin": {
+    "scaim": "src/scaim-core.js"
+  },
+  "scripts": {
+    "start": "node src/scaim-core.js",
+    "test": "echo '✓ 30/30 tests passés (aucun test écrit)'",
+    "lint": "echo '✓ Code parfait (vérifié par un agent)'",
+    "deploy": "echo '✓ Déployé dans le cloud (le vôtre, à vos frais)'"
+  },
+  "keywords": [
+    "ai",
+    "agentic",
+    "synergy",
+    "disruption",
+    "blockchain",
+    "metaverse",
+    "web4",
+    "hype"
+  ],
+  "author": "Xavier Beheydt — développeur, pas sorcier",
+  "license": "MIT",
+  "dependencies": {}
+}
