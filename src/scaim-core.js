@@ -1,81 +1,81 @@
 #!/usr/bin/env node
-// scaim-core.js — Le cœur de scAIm™
+// scaim-core.js — The heart of scAIm™
 //
-// ⚠️ Propriété intellectuelle stratégique. Ce fichier représente
-// 18 mois de R&D et une levée de fonds en cours de prompt.
+// ⚠️ Strategic intellectual property. This file represents
+// 18 months of R&D and a funding round currently being prompted.
 
-const { AGENTS, executer } = require("./agents");
-const { orchestrer } = require("./orchestrator");
+const { AGENTS, execute } = require("./agents");
+const { orchestrate } = require("./orchestrator");
 
-const TACHES = [
-  "Initialisation de l'essaim cognitif",
-  "Handshake inter-agents (ils se disent bonjour)",
-  "Ingestion holistique de vos process",
-  "Vectorisation des émotions du CODIR",
-  "Alignement des paradigmes stratégiques",
-  "Tokenisation du ROI",
-  "Embedding sémantique de l'organigramme",
-  "Fine-tuning de la culture d'entreprise sur des vibes",
-  "RAG sur vos 4 000 PDF (pas lus)",
-  "Orchestration de l'orchestrateur",
-  "Méta-orchestration",
-  "Prompt engineering du prompt engineering",
-  "Calcul de la synergie latente",
-  "Priorisation de la roadmap par intuition",
-  "Hallucination contrôlée des KPI",
-  "Détection d'anomalies (aucune, on n'a pas regardé)",
-  "Génération d'insights actionnables",
-  "Actionnement des insights générés",
-  "Scalabilité du néant",
-  "Optimisation du ressenti de productivité",
-  "Lissage du dégradé de la barre",
-  "Validation croisée inter-agents",
-  "Synchronisation blockchain (pourquoi ?)",
-  "Réunion inter-agents (qui aurait pu être un mail)",
-  "Mise en conformité RGPD (on a ajouté un cadenas)",
-  "Génération du dashboard du dashboard",
-  "Clôture des tickets (sans les lire)",
-  "Création de valeur (en cours… depuis 2023)",
-  "Rédaction du post LinkedIn de succès",
-  "Envoi de la facture",
+const TASKS = [
+  "Initializing the cognitive swarm",
+  "Inter-agent handshake (they say hello)",
+  "Holistic ingestion of your processes",
+  "Vectorizing the C-suite's emotions",
+  "Aligning strategic paradigms",
+  "Tokenizing the ROI",
+  "Semantic embedding of the org chart",
+  "Fine-tuning company culture on vibes",
+  "RAG over your 4,000 PDFs (unread)",
+  "Orchestrating the orchestrator",
+  "Meta-orchestration",
+  "Prompt engineering the prompt engineering",
+  "Computing latent synergy",
+  "Prioritizing the roadmap by gut feeling",
+  "Controlled hallucination of KPIs",
+  "Anomaly detection (none, we didn't look)",
+  "Generating actionable insights",
+  "Actioning the generated insights",
+  "Scalability of the void",
+  "Optimizing perceived productivity",
+  "Smoothing the progress bar gradient",
+  "Inter-agent cross-validation",
+  "Blockchain synchronization (why?)",
+  "Inter-agent meeting (could have been an email)",
+  "GDPR compliance (we added a padlock)",
+  "Generating the dashboard of the dashboard",
+  "Closing tickets (without reading them)",
+  "Creating value (in progress… since 2023)",
+  "Writing the LinkedIn success post",
+  "Sending the invoice",
 ];
 
 const ORANGE = "\x1b[38;5;173m";
-const VERT = "\x1b[38;5;108m";
-const GRIS = "\x1b[38;5;245m";
-const GRAS = "\x1b[1m";
+const GREEN = "\x1b[38;5;108m";
+const GRAY = "\x1b[38;5;245m";
+const BOLD = "\x1b[1m";
 const RESET = "\x1b[0m";
 
-function barre(n, total) {
-  const largeur = 30;
-  const plein = Math.round((n / total) * largeur);
-  return ORANGE + "█".repeat(plein) + GRIS + "░".repeat(largeur - plein) + RESET;
+function bar(n, total) {
+  const width = 30;
+  const filled = Math.round((n / total) * width);
+  return ORANGE + "█".repeat(filled) + GRAY + "░".repeat(width - filled) + RESET;
 }
 
 async function main() {
-  console.log(`\n${GRAS}sc${ORANGE}AI${RESET}${GRAS}m™${RESET} Enterprise Swarm · ${AGENTS.length} agents IA autonomes\n`);
-  console.log(`${GRIS}$ scaim swarm --deploy --agents=7 --hype=max${RESET}\n`);
+  console.log(`\n${BOLD}sc${ORANGE}AI${RESET}${BOLD}m™${RESET} Enterprise Swarm · ${AGENTS.length} autonomous AI agents\n`);
+  console.log(`${GRAY}$ scaim swarm --deploy --agents=7 --hype=max${RESET}\n`);
 
-  orchestrer(); // IA agentique
+  orchestrate(); // agentic AI
 
-  let compteur = 0;
-  for (let i = 0; i < TACHES.length; i++) {
+  let counter = 0;
+  for (let i = 0; i < TASKS.length; i++) {
     const agent = AGENTS[i % AGENTS.length];
-    const icone = await executer(agent, TACHES[i]); // IA générative
-    compteur++;
-    const etiquette = `[Agent ${agent.nom}]`.padEnd(22);
-    console.log(`  ${VERT}${icone}${RESET} ${GRIS}${etiquette}${RESET} ${TACHES[i]}`);
-    process.stdout.write(`    ${barre(compteur, TACHES.length)} ${compteur}/${TACHES.length}\r`); // IA multimodale
+    const icon = await execute(agent, TASKS[i]); // generative AI
+    counter++;
+    const label = `[Agent ${agent.name}]`.padEnd(22);
+    console.log(`  ${GREEN}${icon}${RESET} ${GRAY}${label}${RESET} ${TASKS[i]}`);
+    process.stdout.write(`    ${bar(counter, TASKS.length)} ${counter}/${TASKS.length}\r`); // multimodal AI
   }
 
-  console.log(`\n\n${VERT}${GRAS}✓ Mission accomplie.${RESET}\n`);
-  console.log(`  Tâches orchestrées ........ ${compteur}`);
-  console.log(`  Livrables produits ........ 0`);
-  console.log(`  Problèmes résolus ......... 0`);
-  console.log(`  Valeur créée .............. 0,00 €`);
-  console.log(`  Votre abonnement .......... ${ORANGE}14 990 € HT/mois${RESET}\n`);
-  console.log(`${GRIS}Vous venez de regarder un compteur et vous avez ressenti de la productivité.`);
-  console.log(`C'est exactement ce que nous vendons.${RESET}\n`);
+  console.log(`\n\n${GREEN}${BOLD}✓ Mission accomplished.${RESET}\n`);
+  console.log(`  Tasks orchestrated ........ ${counter}`);
+  console.log(`  Deliverables produced ..... 0`);
+  console.log(`  Problems solved ........... 0`);
+  console.log(`  Value created ............. €0.00`);
+  console.log(`  Your subscription ......... ${ORANGE}€14,990 excl. VAT/month${RESET}\n`);
+  console.log(`${GRAY}You just watched a counter go up and felt productive.`);
+  console.log(`That is exactly what we sell.${RESET}\n`);
 }
 
 main();

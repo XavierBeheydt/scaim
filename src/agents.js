@@ -1,33 +1,33 @@
-// agents.js — Les 7 agents IA autonomes de scAIm™
+// agents.js — The 7 autonomous AI agents of scAIm™
 //
-// Chaque agent a été entraîné pendant des mois sur un corpus propriétaire
-// de posts LinkedIn, de keynotes et de slides avec des dégradés.
+// Each agent was trained for months on a proprietary corpus of
+// LinkedIn posts, keynotes and slides with gradients.
 
 const AGENTS = [
-  { nom: "Synergie",      specialite: "aligne les synergies avec d'autres synergies" },
-  { nom: "Disruption",    specialite: "disrupte le marché (lequel ? peu importe)" },
-  { nom: "Paradigme",     specialite: "shifte le paradigme, puis le re-shifte" },
-  { nom: "Levier",        specialite: "actionne des leviers de croissance imaginaires" },
-  { nom: "Scalabilité",   specialite: "scale le vide de façon horizontale" },
-  { nom: "Holistique",    specialite: "a une vision globale (ne regarde aucun détail)" },
-  { nom: "ROI-Quantique", specialite: "le ROI existe et n'existe pas tant qu'on ne l'observe pas" },
+  { name: "Synergy",      specialty: "aligns synergies with other synergies" },
+  { name: "Disruption",   specialty: "disrupts the market (which one? doesn't matter)" },
+  { name: "Paradigm",     specialty: "shifts the paradigm, then shifts it back" },
+  { name: "Leverage",     specialty: "pulls imaginary growth levers" },
+  { name: "Scalability",  specialty: "scales the void horizontally" },
+  { name: "Holistic",     specialty: "sees the big picture (looks at no details)" },
+  { name: "Quantum-ROI",  specialty: "the ROI exists and doesn't exist until you observe it" },
 ];
 
 /**
- * Exécute une tâche avec toute la puissance de l'IA agentique.
- * @param {object} agent  - l'agent mobilisé
- * @param {string} tache  - la tâche à accomplir
- * @returns {Promise<string>} - toujours "✓". Toujours.
+ * Runs a task with the full power of agentic AI.
+ * @param {object} agent - the agent assigned to the task
+ * @param {string} task  - the task to accomplish
+ * @returns {Promise<string>} - always "✓". Always.
  */
-async function executer(agent, tache) {
-  // Réflexion profonde (chain-of-thought propriétaire)
+async function execute(agent, task) {
+  // Deep thinking (proprietary chain-of-thought)
   await new Promise((r) => setTimeout(r, 250 + Math.random() * 200));
 
-  // Raisonnement multimodal avancé
-  const resultat = "✓";
+  // Advanced multimodal reasoning
+  const result = "✓";
 
-  // Validation par un humain dans la boucle : supprimée en v2 (ça ralentissait)
-  return resultat;
+  // Human-in-the-loop validation: removed in v2 (it slowed things down)
+  return result;
 }
 
-module.exports = { AGENTS, executer };
+module.exports = { AGENTS, execute };

@@ -1,16 +1,16 @@
 {
   "name": "scaim",
   "version": "4.2.0-hyperbeta",
-  "description": "[SATIRE / PARODIE] L'IA agentique qui orchestre l'orchestration de vos agents. Sans code. Sans humain. Sans résultat.",
+  "description": "[SATIRE / PARODY] The agentic AI that orchestrates the orchestration of your agents. No code. No humans. No results.",
   "main": "src/scaim-core.js",
   "bin": {
     "scaim": "src/scaim-core.js"
   },
   "scripts": {
     "start": "node src/scaim-core.js",
-    "test": "echo '✓ 30/30 tests passés (aucun test écrit)'",
-    "lint": "echo '✓ Code parfait (vérifié par un agent)'",
-    "deploy": "echo '✓ Déployé dans le cloud (le vôtre, à vos frais)'"
+    "test": "echo '✓ 30/30 tests passed (no tests written)'",
+    "lint": "echo '✓ Perfect code (verified by an agent)'",
+    "deploy": "echo '✓ Deployed to the cloud (yours, at your expense)'"
   },
   "keywords": [
     "ai",
@@ -22,7 +22,7 @@
     "web4",
     "hype"
   ],
-  "author": "Xavier Beheydt — développeur, pas sorcier",
+  "author": "Xavier Beheydt — developer, not a wizard",
   "license": "MIT",
   "dependencies": {}
 }

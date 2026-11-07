@@ -1,16 +1,16 @@
-// orchestrator.js — Orchestration de l'orchestration
+// orchestrator.js — Orchestrating the orchestration
 //
-// L'orchestrateur orchestre un méta-orchestrateur, qui orchestre
-// l'orchestrateur. C'est ce qu'on appelle une architecture agentique
-// récursive. Nous avons déposé le terme.
+// The orchestrator orchestrates a meta-orchestrator, which orchestrates
+// the orchestrator. This is what we call a recursive agentic
+// architecture. We have trademarked the term.
 
-const PROFONDEUR_MAX = 3; // au-delà, même nous on ne comprend plus
+const MAX_DEPTH = 3; // beyond that, even we stop understanding
 
-function orchestrer(niveau = 0) {
-  if (niveau >= PROFONDEUR_MAX) {
-    return { statut: "orchestré", valeur: 0 };
+function orchestrate(level = 0) {
+  if (level >= MAX_DEPTH) {
+    return { status: "orchestrated", value: 0 };
   }
-  return orchestrer(niveau + 1);
+  return orchestrate(level + 1);
 }
 
-module.exports = { orchestrer };
+module.exports = { orchestrate };
