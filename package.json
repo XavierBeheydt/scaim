@@ -1,7 +1,7 @@
 {
   "name": "scaim",
   "version": "4.2.0-hyperbeta",
-  "description": "L'IA agentique qui orchestre l'orchestration de vos agents. Sans code. Sans humain. Sans résultat.",
+  "description": "[SATIRE / PARODIE] L'IA agentique qui orchestre l'orchestration de vos agents. Sans code. Sans humain. Sans résultat.",
   "main": "src/scaim-core.js",
   "bin": {
     "scaim": "src/scaim-core.js"

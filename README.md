@@ -19,6 +19,9 @@
 
 </div>
 
+> [!WARNING]
+> **Ceci est une satire.** scAIm™ n'est pas un vrai produit et ne fait volontairement rien d'utile. C'est une parodie des « solutions IA miracles » vendues à coups d'animations et de compteurs. Aucune personne ni entreprise réelle n'est visée.
+
 ---
 
 ## ✨ Qu'est-ce que scAIm™ ?
